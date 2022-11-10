@@ -8,6 +8,11 @@ console.log('Hello World');
 
 app.use(express.static(__dirname + "/public"));
 
+app.use(function(req, res, next) {
+    console.log(req.method +' '+ req.path +' - '+ req.ip);
+    next();
+});
+
 app.get("/", function(req, res) {
 
     absolutePath = __dirname + "/views/index.html";
