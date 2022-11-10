@@ -27,6 +27,15 @@ app.get("/json", function(req, res) {
     res.json({"message": msg});
 });
 
+var dalayInmilliseconds = 1000;
+app.get("/now", function(req, res, next) {
+    req.time = new Date().toString();
+    next()
+}, (req, res) => {
+    setTimeout(function() {
+        res.json({"time": req.time})
+    }, dalayInmilliseconds);
+});
 
 
 
