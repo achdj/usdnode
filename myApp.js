@@ -1,5 +1,6 @@
 let express = require('express');
 let dotenv = require('dotenv').config();
+let bodyParser = require('body-parser');
 let app = express();
 console.log('Hello World');
 
@@ -12,6 +13,8 @@ app.use(function(req, res, next) {
     console.log(req.method +' '+ req.path +' - '+ req.ip);
     next();
 });
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.get("/", function(req, res) {
 
@@ -37,7 +40,25 @@ app.get("/now", function(req, res, next) {
     }, dalayInmilliseconds);
 });
 
+app.get("/:word/echo", function(req, res) {
+    const { word } = req.params;
+    res.json({echo: word});
+});
 
+app.get("/name", function(req, res) {
+    var firstName = req.query.first;
+    var lastName = req.query.last;
+
+    var { first: firstName, last: lastName} = req.query;
+    res.json({name: `${firstName} ${lastName}`})
+});
+
+app.post('/name', function(req, res) {
+    var firstName = req.body.first;
+    var lastName = req.body.last;
+
+    res.json({name: `${firstName} ${lastName}`})
+});
 
 
 
